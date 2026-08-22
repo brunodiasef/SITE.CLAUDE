@@ -171,6 +171,24 @@ document.querySelectorAll('.ba-wrap').forEach(function(wrap){
   baObs.observe(wrap);
 });
 
+// Método: holofote seguindo o cursor
+const metodoSection=document.querySelector('.metodoSection');
+if(metodoSection){
+  metodoSection.addEventListener('mousemove',e=>{
+    const r=metodoSection.getBoundingClientRect();
+    metodoSection.style.setProperty('--sx',((e.clientX-r.left)/r.width*100)+'%');
+    metodoSection.style.setProperty('--sy',((e.clientY-r.top)/r.height*100)+'%');
+  });
+}
+// Método: linha conectora se desenha ao entrar na tela
+const connectorLine=document.querySelector('.connectorLine');
+if(connectorLine){
+  const lineObs=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){ connectorLine.classList.add('drawn'); lineObs.unobserve(connectorLine); }
+  }),{threshold:.4});
+  lineObs.observe(connectorLine);
+}
+
 // Depoimento expansível (SAIBA MAIS)
 document.querySelectorAll('.testimonialToggle').forEach(function(btn){
   const full=btn.nextElementSibling;
