@@ -99,15 +99,27 @@ updateParallax();
   if(!carousel)return;
   const slides=carousel.querySelectorAll('.hc-slide');
   const dots=carousel.querySelectorAll('.hc-dot');
+  const total=slides.length;
   let idx=0,timer=null;
   function show(i){
-    slides.forEach((s,n)=>s.classList.toggle('active',n===i));
+    const prev=(i-1+total)%total;
+    const nxt=(i+1)%total;
+    slides.forEach((s,n)=>{
+      s.classList.remove('active','prev','next');
+      if(n===i)s.classList.add('active');
+      else if(n===prev)s.classList.add('prev');
+      else if(n===nxt)s.classList.add('next');
+    });
     dots.forEach((d,n)=>d.classList.toggle('active',n===i));
     idx=i;
   }
-  function next(){ show((idx+1)%slides.length); }
+  function next(){ show((idx+1)%total); }
   function startAuto(){ clearInterval(timer); timer=setInterval(next,4200); }
   dots.forEach(d=>d.addEventListener('click',()=>{ show(parseInt(d.dataset.i)); startAuto(); }));
+  slides.forEach((s,n)=>s.addEventListener('click',()=>{
+    if(!s.classList.contains('active')){ show(n); startAuto(); }
+  }));
+  show(0);
   startAuto();
 })();
 
