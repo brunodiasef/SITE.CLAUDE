@@ -114,7 +114,7 @@ updateParallax();
     idx=i;
   }
   function next(){ show((idx+1)%total); }
-  function startAuto(){ clearInterval(timer); timer=setInterval(next,4200); }
+  function startAuto(){ clearInterval(timer); timer=setInterval(next,2200); }
   dots.forEach(d=>d.addEventListener('click',()=>{ show(parseInt(d.dataset.i)); startAuto(); }));
   slides.forEach((s,n)=>s.addEventListener('click',()=>{
     if(!s.classList.contains('active')){ show(n); startAuto(); }
