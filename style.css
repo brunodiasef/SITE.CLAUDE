@@ -45,6 +45,7 @@ img{max-width:100%}
 .accent,.blue{color:var(--accent);opacity:1}
 .hero h1,.title{font-family:var(--font-display);font-weight:400;letter-spacing:.005em;word-spacing:.08em;line-height:1.22;text-transform:uppercase;text-wrap:balance}
 .hero h1{font-size:clamp(44px,6.4vw,84px);margin:0}
+.title{font-size:clamp(36px,4.3vw,60px);margin:0 0 22px}
 .hero h2{font-family:var(--font-body);font-weight:700;font-size:clamp(19px,2vw,26px);margin:26px 0 8px;color:var(--text)}
 .heroText>p:not(.eyebrow){max-width:600px;color:var(--text-dim);line-height:1.75;font-size:15px}
 .actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
@@ -86,17 +87,13 @@ img{max-width:100%}
 /* ===== Sections generic ===== */
 .dark{background:var(--bg-alt);color:var(--text)}
 .sobreSection{position:relative;overflow:hidden}
-.sobreBg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:.1;filter:saturate(.15) contrast(1.05);pointer-events:none;z-index:0;transform:scale(1.12);transition:transform 1.4s cubic-bezier(.16,1,.3,1),opacity 1.4s;will-change:transform}
-.sobreSection.inView .sobreBg{transform:scale(1)}
+.sobreBg{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover;object-position:top center;opacity:.1;filter:saturate(.15) contrast(1.05);pointer-events:none;z-index:0;will-change:transform}
 .sobreSection .wrap{position:relative;z-index:1}
 .sobreBg--color{opacity:.24;filter:saturate(1) contrast(1.03)}
 
 .wrap{max-width:1200px;margin:auto;padding:120px 28px}
 .lead{max-width:650px;color:var(--text-dim);line-height:1.75;font-size:15px}
 
-/* ===== Word-by-word reveal ===== */
-.wordReveal .wword{display:inline-block;transform:translateY(30%);opacity:0;transition:transform .6s cubic-bezier(.2,.8,.2,1),opacity .5s ease}
-.wordReveal.wordsIn .wword{transform:translateY(0);opacity:1}
 
 /* ===== Cards / pillars (método) ===== */
 .metodoSection{position:relative;overflow:hidden}
@@ -108,33 +105,65 @@ img{max-width:100%}
 .metodoGrid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,90,31,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,90,31,.05) 1px,transparent 1px);background-size:44px 44px;mask-image:radial-gradient(ellipse 70% 60% at 50% 40%,#000 40%,transparent 100%);pointer-events:none}
 .spotlight{position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity .4s;background:radial-gradient(circle 320px at var(--sx,50%) var(--sy,50%),rgba(255,138,76,.14),transparent 70%)}
 .metodoSection:hover .spotlight{opacity:1}
-.connectorLine{display:block;width:100%;height:2px;margin-top:60px;overflow:visible}
-.connectorLine path{fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:1000;stroke-dashoffset:1000;filter:drop-shadow(0 0 6px var(--accent-glow))}
-.connectorLine.drawn path{transition:stroke-dashoffset 1.4s cubic-bezier(.16,1,.3,1);stroke-dashoffset:0}
-.timelineH{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;margin-top:-2px;position:relative}
-.pillarCard{position:relative;background:linear-gradient(160deg,var(--surface),var(--bg-alt));border:1px solid var(--border);border-radius:22px;padding:36px 30px 30px;transform-style:preserve-3d;will-change:transform;transition:border-color .35s,box-shadow .35s,transform .1s}
+/* Linha acima dos cards, com um nó centralizado sobre cada coluna (34px = gap da grade) */
+.connector{position:relative;z-index:2;height:3px;margin:64px 0 38px}
+.connectorTrack{position:absolute;inset:0;border-radius:3px;background:rgba(245,242,236,.12)}
+.connectorFill{position:absolute;inset:0;border-radius:3px;background:linear-gradient(90deg,var(--accent-dark),var(--accent),var(--accent-light));transform-origin:left center;box-shadow:0 0 14px var(--accent-glow)}
+.connectorNode{position:absolute;top:50%;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--bg-alt),0 0 16px var(--accent-glow);transition:background .35s,box-shadow .35s}
+.connectorNode:nth-of-type(1){left:calc((100% - 68px)/6)}
+.connectorNode:nth-of-type(2){left:50%}
+.connectorNode:nth-of-type(3){left:calc(100% - (100% - 68px)/6)}
+/* Haste que desce do nó até o card */
+.connectorNode::after{content:"";position:absolute;left:50%;top:100%;width:2px;height:32px;margin-left:-1px;background:linear-gradient(180deg,var(--accent),rgba(255,90,31,.35));transform-origin:top center;transition:transform .45s cubic-bezier(.2,.8,.2,1)}
+.has-motion .connectorNode{background:var(--surface-2);box-shadow:0 0 0 4px var(--bg-alt)}
+.has-motion .connectorNode::after{transform:scaleY(0)}
+.has-motion .connectorNode.lit{background:var(--accent);box-shadow:0 0 0 4px var(--bg-alt),0 0 0 8px rgba(255,90,31,.2),0 0 20px var(--accent-glow)}
+.has-motion .connectorNode.lit::after{transform:scaleY(1)}
+.connectorDot{position:absolute;z-index:1;left:0;top:50%;width:12px;height:12px;margin:-6px 0 0 -6px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,90,31,.35),0 0 22px 6px var(--accent-glow);opacity:0}
+.timelineH{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;position:relative}
+.pillarCard.lit{border-color:rgba(255,90,31,.55);box-shadow:0 18px 50px rgba(255,90,31,.12)}
+.pillarCard{position:relative;background:linear-gradient(160deg,var(--surface),var(--bg-alt));border:1px solid var(--border);border-radius:22px;padding:36px 30px 30px;transform-style:preserve-3d;will-change:transform;transition:border-color .35s,box-shadow .35s}
 .pillarCard:hover{border-color:var(--accent);box-shadow:0 25px 60px rgba(255,90,31,.18),0 0 0 1px rgba(255,90,31,.25) inset}
 .pillarIcon{width:58px;height:58px;border-radius:16px;background:rgba(255,90,31,.1);color:var(--accent);display:flex;align-items:center;justify-content:center;margin-bottom:22px;transition:transform .4s cubic-bezier(.2,.8,.2,1),background .35s,box-shadow .35s}
 .pillarIcon svg{width:28px;height:28px}
 .pillarCard:hover .pillarIcon{transform:scale(1.12) rotate(-6deg);background:var(--accent);color:#fff;box-shadow:0 10px 30px var(--accent-glow)}
-.pillarNum{position:absolute;top:28px;right:28px;font-family:var(--font-display);font-weight:400;font-size:38px;color:transparent;-webkit-text-stroke:1px rgba(255,90,31,.35);transition:.35s}
+.pillarNum{position:absolute;top:28px;right:28px;font-family:var(--font-display);font-weight:400;font-size:38px;color:transparent;-webkit-text-stroke:1px rgba(255,90,31,.35);transition:-webkit-text-stroke-color .35s,text-shadow .35s}
 .pillarCard:hover .pillarNum{-webkit-text-stroke:1px rgba(255,90,31,.7);text-shadow:0 0 18px var(--accent-glow)}
 .pillarCard h3{font-family:var(--font-display);font-weight:400;font-size:20px;margin:0 0 10px;letter-spacing:.02em;text-transform:uppercase}
 .pillarCard p{margin:0;color:var(--text-dim);line-height:1.7;font-size:13px}
 
 /* ===== Pill cards (presencial) with tilt + glow ===== */
 .pillCards{display:grid;gap:16px;margin-top:55px}
-.pillCards article{position:relative;display:flex;align-items:center;justify-content:space-between;gap:28px;border:1px solid var(--border);background:var(--surface);border-radius:28px;padding:26px 38px;transition:border-color .3s,box-shadow .3s;transform-style:preserve-3d;will-change:transform}
-.pillCards article:hover{border-color:var(--accent);box-shadow:0 20px 45px rgba(255,90,31,.12)}
-.pillCards h3{font-family:var(--font-display);font-weight:400;margin:0;font-size:19px;letter-spacing:.02em;text-transform:uppercase}
-.pillCards .link{margin:0;white-space:nowrap}
+.pillCards article{position:relative;display:flex;align-items:center;justify-content:space-between;gap:28px;border:1px solid var(--border);background:var(--surface);border-radius:28px;padding:26px 38px;transition:border-color .3s,box-shadow .3s;transform-style:preserve-3d;will-change:transform;overflow:hidden;isolation:isolate}
+/* Preenchimento laranja que "varre" o card no hover */
+.pillCards article::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,var(--accent-dark),var(--accent) 55%,var(--accent-light));transform:scaleX(0);transform-origin:left center;transition:transform .55s cubic-bezier(.7,0,.2,1);z-index:-1}
+.pillCards article:hover::before{transform:scaleX(1)}
+.pillCards article:hover{border-color:var(--accent);box-shadow:0 20px 45px rgba(255,90,31,.22)}
+.pillHead{display:flex;align-items:center;gap:22px}
+.pillNum{font-family:var(--font-display);font-size:34px;line-height:1;color:transparent;-webkit-text-stroke:1px rgba(255,90,31,.55);transition:color .4s,-webkit-text-stroke-color .4s}
+.pillCards article:hover .pillNum{color:#fff;-webkit-text-stroke-color:#fff}
+.pillPeople{display:flex;gap:6px}
+.pillPeople i{width:9px;height:9px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent-glow);transition:background .4s,transform .4s cubic-bezier(.2,.8,.2,1)}
+.pillCards article:hover .pillPeople i{background:#fff;transform:translateY(-3px)}
+.pillCards article:hover .pillPeople i:nth-child(2){transition-delay:.05s}
+.pillCards article:hover .pillPeople i:nth-child(3){transition-delay:.1s}
+.pillCards h3{font-family:var(--font-display);font-weight:400;margin:0;font-size:19px;letter-spacing:.02em;text-transform:uppercase;transition:color .4s}
+.pillCards .link{margin:0;white-space:nowrap;transition:color .4s}
+.pillCards article:hover .link{color:#fff}
 .link{position:relative;display:inline-block;color:var(--accent);font-size:10px;font-weight:900;letter-spacing:.1em;margin-top:25px}
 .link:hover{color:var(--accent-light)}
+.link .arrow{display:inline-block;transition:transform .35s cubic-bezier(.2,.8,.2,1)}
+.link:hover .arrow,.pillCards article:hover .arrow{transform:translateX(6px)}
 
 /* ===== Timeline (sobre) ===== */
-.timeline{border-left:2px solid var(--accent);margin-top:60px;padding-left:30px;display:grid;gap:40px}
+.timeline{position:relative;margin-top:60px;padding-left:32px;display:grid;gap:40px}
+.timelineTrack{position:absolute;left:0;top:0;bottom:0;width:2px;background:var(--border);border-radius:2px;overflow:hidden}
+.timelineFill{position:absolute;inset:0;background:linear-gradient(180deg,var(--accent-light),var(--accent));transform-origin:top center;box-shadow:0 0 12px var(--accent-glow)}
 .timeline article{position:relative;max-width:750px}
-.timeline article:before{content:"";position:absolute;left:-37px;top:1px;width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px var(--bg),0 0 14px var(--accent-glow)}
+.timeline article:before{content:"";position:absolute;left:-37px;top:1px;width:11px;height:11px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 5px var(--bg),0 0 14px var(--accent-glow);transition:transform .5s cubic-bezier(.2,.8,.2,1),background .4s,box-shadow .4s}
+/* Com animação ativa, os pontos "acendem" quando a linha chega até eles */
+.has-motion .timeline article:before{background:var(--surface-2);box-shadow:0 0 0 5px var(--bg)}
+.has-motion .timeline article.lit:before{background:var(--accent);transform:scale(1.35);box-shadow:0 0 0 5px var(--bg),0 0 0 9px rgba(255,90,31,.18),0 0 18px var(--accent-glow)}
 .timeline b{font-size:10px;color:var(--accent);letter-spacing:.15em}
 .timeline h3{font-family:var(--font-display);font-weight:400;font-size:24px;margin:9px 0 8px;letter-spacing:-.01em}
 .timeline p{margin:0;color:var(--text-dim);line-height:1.7;font-size:14px}
@@ -167,20 +196,6 @@ img{max-width:100%}
 .phoneText .eyebrow{margin-bottom:4px}
 .phoneText .btn{font-size:9px;padding:0 18px;min-height:42px}
 
-/* ===== Scroll reveal base ===== */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}
-.reveal.visible{opacity:1;transform:none}
-.pillCards article.reveal:nth-child(1){transition-delay:0s}
-.pillCards article.reveal:nth-child(2){transition-delay:.08s}
-.pillCards article.reveal:nth-child(3){transition-delay:.16s}
-.timelineH .pillarCard.reveal:nth-child(1){transition-delay:0s}
-.timelineH .pillarCard.reveal:nth-child(2){transition-delay:.1s}
-.timelineH .pillarCard.reveal:nth-child(3){transition-delay:.2s}
-.timeline article.reveal:nth-child(1){transition-delay:0s}
-.timeline article.reveal:nth-child(2){transition-delay:.06s}
-.timeline article.reveal:nth-child(3){transition-delay:.12s}
-.timeline article.reveal:nth-child(4){transition-delay:.18s}
-.timeline article.reveal:nth-child(5){transition-delay:.24s}
 
 /* ===== Depoimentos / before-after ===== */
 .baGrid{display:grid;gap:70px;margin-top:55px}
@@ -207,8 +222,9 @@ img{max-width:100%}
 .testimonialQuote{font-family:var(--font-display);font-weight:400;font-size:22px;letter-spacing:-.01em;line-height:1.28;margin:0 0 22px;color:var(--text);text-transform:none}
 .testimonialToggle{align-self:flex-start;background:none;border:0;padding:0;color:var(--accent);font-size:11px;font-weight:900;letter-spacing:.08em;cursor:pointer;transition:color .2s}
 .testimonialToggle:hover{color:var(--accent-light)}
-.testimonialFull{max-height:0;overflow:hidden;transition:max-height .4s ease}
-.testimonialFull.open{max-height:600px;margin-top:20px}
+.testimonialFull{height:0;overflow:hidden}
+.testimonialFull.open{height:auto}
+.testimonialFull p:first-child{margin-top:20px}
 .testimonialFull p{font-size:14px;line-height:1.75;color:var(--text-dim);margin:0 0 14px}
 .testimonialFull p:last-child{margin-bottom:0}
 
@@ -252,8 +268,8 @@ footer small{margin-left:auto}
   .pillCards h3{white-space:normal}
   .baGrid{gap:50px}
   .baPair{grid-template-columns:1fr;gap:30px}
-  .timelineH{grid-template-columns:1fr;gap:22px}
-  .connectorLine{display:none}
+  .timelineH{grid-template-columns:1fr;gap:22px;margin-top:40px}
+  .connector{display:none}
   .wrap{padding:90px 20px}
   .actions .btn{width:100%}
   .ba-wrap{max-width:270px}
@@ -276,7 +292,128 @@ footer small{margin-left:auto}
   .ba-wrap{max-width:225px}
 }
 
-/* Respect reduced motion */
+/* =====================================================================
+   MOTION LAYER — intro, cursor, manifesto, fita, rodapé gigante
+   ===================================================================== */
+
+/* Lenis (smooth scroll) */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+.lenis.lenis-stopped{overflow:hidden}
+html.is-loading{overflow:hidden}
+
+/* Hero escondido até o JS assumir (com failsafe caso o CDN falhe) */
+html.js-motion .hero{opacity:0;animation:failsafeShow .01s 3.5s forwards}
+@keyframes failsafeShow{to{opacity:1}}
+
+/* ----- Preloader ----- */
+.preloader{position:fixed;inset:0;z-index:1000;pointer-events:none;animation:failsafeHide .4s 4.5s forwards}
+html.js-motion .preloader{pointer-events:auto}
+html.intro-seen .preloader,html.reduce-motion .preloader,html:not(.js-motion) .preloader{display:none}
+@keyframes failsafeHide{to{opacity:0;visibility:hidden}}
+.plPanel{position:absolute;inset:0}
+.plPanel--dark{background:var(--bg);display:grid;place-items:center}
+.plPanel--dark:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,rgba(255,90,31,.16),transparent 55%)}
+.plPanel--accent{background:var(--accent);transform:translateY(101%)}
+.plCenter{position:relative;display:flex;flex-direction:column;align-items:center;gap:22px}
+.plCount{display:flex;align-items:flex-end;gap:14px}
+.plNum{font-family:var(--font-display);font-size:clamp(110px,18vw,220px);line-height:.82;color:var(--text);font-variant-numeric:tabular-nums;min-width:1.05em;text-align:right}
+.plCount small{font-size:11px;font-weight:900;letter-spacing:.2em;color:var(--accent);padding-bottom:10px;line-height:1.5}
+.plBar{width:min(320px,70vw);height:2px;background:var(--border);overflow:hidden;border-radius:2px}
+.plBar i{display:block;height:100%;background:var(--accent);transform:scaleX(0);transform-origin:left;box-shadow:0 0 12px var(--accent-glow)}
+.plTag{margin:0;font-size:10px;font-weight:900;letter-spacing:.35em;color:var(--text-dim)}
+
+/* ----- Barra de progresso + grão ----- */
+.scrollProgress{position:fixed;top:0;left:0;right:0;height:2px;z-index:200;background:linear-gradient(90deg,var(--accent-dark),var(--accent),var(--accent-light));transform:scaleX(0);transform-origin:left;box-shadow:0 0 10px var(--accent-glow);pointer-events:none}
+.grain{position:fixed;inset:-50%;z-index:150;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ----- Header que some ao descer e volta ao subir ----- */
+.header.scrolled{background:rgba(8,9,11,.92)}
+
+/* ----- Cursor personalizado (apenas mouse) ----- */
+.cursor{display:none}
+html.cursor-on .cursor{display:block}
+html.cursor-on,html.cursor-on *{cursor:none!important}
+.cursorDot,.cursorRing{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;opacity:0;transition:opacity .3s}
+.cursor.visible .cursorDot,.cursor.visible .cursorRing{opacity:1}
+.cursorDot{width:6px;height:6px;margin:-3px 0 0 -3px;border-radius:50%;background:var(--accent)}
+.cursorRing{width:40px;height:40px;margin:-20px 0 0 -20px}
+.cursorRingInner{width:100%;height:100%;border-radius:50%;border:1.5px solid rgba(255,90,31,.7);display:grid;place-items:center;transition:transform .4s cubic-bezier(.2,.8,.2,1),background .3s,border-color .3s}
+.cursorLabel{font-size:4px;font-weight:900;letter-spacing:.1em;color:#fff;opacity:0;transition:opacity .25s}
+.cursor.is-hover .cursorRingInner{transform:scale(1.7);background:rgba(255,90,31,.14);border-color:var(--accent)}
+.cursor.is-drag .cursorRingInner{transform:scale(2.3);background:var(--accent);border-color:var(--accent)}
+.cursor.is-drag .cursorLabel{opacity:1}
+.cursor.is-drag .cursorDot,.cursor.is-hover .cursorDot{opacity:0}
+.cursor.is-down .cursorRingInner{transform:scale(.8)}
+
+/* Botões magnéticos: o GSAP cuida do transform */
+.magnetic{transition:box-shadow .35s,background .25s,color .25s,border-color .25s!important}
+
+/* ----- Hero ----- */
+.heroText,.heroLogo{position:relative;z-index:1}
+.heroTitleWrap{position:relative}
+.heroTitle{position:relative;z-index:1}
+.heroScribble{position:absolute;left:0;top:0;width:10px;height:.42em;font-size:clamp(44px,6.4vw,84px);overflow:visible;pointer-events:none;z-index:0}
+.heroScribble path{fill:none;stroke:var(--accent);stroke-width:5;stroke-linecap:round;filter:drop-shadow(0 0 8px var(--accent-glow))}
+.heroScribble path:nth-child(2){stroke-width:3;opacity:.55}
+.heroPulse{position:absolute;left:0;right:0;bottom:9%;width:100%;height:120px;z-index:0;pointer-events:none;opacity:.75}
+.heroPulse path{fill:none;stroke-linejoin:round;stroke-linecap:round;vector-effect:non-scaling-stroke}
+.heroPulse__base{stroke:rgba(255,90,31,.12);stroke-width:1.5}
+.heroPulse__run{stroke:var(--accent);stroke-width:2.2;stroke-dasharray:110 1000;stroke-dashoffset:1110;filter:drop-shadow(0 0 6px var(--accent))}
+html.has-motion .heroPulse__run{animation:pulseRun 3.6s cubic-bezier(.45,0,.55,1) infinite}
+@keyframes pulseRun{from{stroke-dashoffset:1110}to{stroke-dashoffset:0}}
+.heroCarousel{transform-style:preserve-3d}
+html.has-motion .phoneGlow{animation:glowPulse 4.5s ease-in-out infinite}
+@keyframes glowPulse{0%,100%{transform:scale(1);opacity:.28}50%{transform:scale(1.25);opacity:.42}}
+.scrollCue{position:absolute;left:clamp(22px,7vw,110px);bottom:34px;z-index:2;display:flex;align-items:center;gap:12px;font-size:9px;font-weight:900;letter-spacing:.3em;color:var(--text-dim)}
+.scrollCue__line{position:relative;width:1px;height:46px;background:var(--border);overflow:hidden}
+.scrollCue__line:after{content:"";position:absolute;left:0;top:0;width:100%;height:40%;background:var(--accent);animation:cueDrop 1.8s cubic-bezier(.7,0,.3,1) infinite}
+@keyframes cueDrop{0%{transform:translateY(-100%)}100%{transform:translateY(260%)}}
+.scrollCue:hover{color:var(--accent)}
+
+/* ----- Manifesto ----- */
+.manifesto{position:relative;min-height:100vh;display:grid;place-items:center;padding:120px clamp(22px,7vw,110px);background:var(--bg);overflow:hidden}
+.manifestoGlow{position:absolute;width:60vw;height:60vw;max-width:780px;max-height:780px;border-radius:50%;background:radial-gradient(circle,rgba(255,90,31,.20),transparent 62%);left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none}
+.manifestoInner{position:relative;max-width:1100px}
+.manifestoText{margin:0;font-family:var(--font-display);font-size:clamp(34px,5.6vw,80px);line-height:1.12;text-transform:uppercase;letter-spacing:.005em;word-spacing:.06em;color:var(--text)}
+.manifestoText em{font-style:normal;color:var(--accent)}
+
+/* ----- Fita (marquee) ----- */
+.tape{position:relative;height:clamp(170px,22vw,260px);overflow:hidden;background:var(--bg);display:grid;place-items:center}
+.tapeBand{position:absolute;left:-10%;width:120%;padding:16px 0;overflow:hidden;white-space:nowrap}
+.tapeBand--accent{background:var(--accent);transform:rotate(-3.5deg);z-index:2;box-shadow:0 20px 50px rgba(0,0,0,.45)}
+.tapeBand--dark{background:var(--surface);border-block:1px solid var(--border);transform:rotate(2.5deg);z-index:1}
+.tapeTrack{display:flex;width:max-content;will-change:transform}
+.tapeGroup{display:flex;align-items:center;flex:none}
+.tapeGroup span{font-family:var(--font-display);font-size:clamp(28px,4vw,52px);line-height:1;padding:0 26px;letter-spacing:.02em}
+.tapeGroup i{font-style:normal;font-size:clamp(14px,1.6vw,22px)}
+.tapeBand--accent span{color:var(--bg)}
+.tapeBand--accent i{color:#fff}
+.tapeBand--dark span{color:transparent;-webkit-text-stroke:1px rgba(245,242,236,.45)}
+.tapeBand--dark i{color:var(--accent)}
+
+/* ----- Títulos divididos pelo SplitText ----- */
+.st-line{padding-bottom:.06em;margin-bottom:-.06em}
+
+/* ----- Rodapé gigante ----- */
+.footerGiant{background:var(--bg-alt2);overflow:hidden;padding:60px 0 0;text-align:center;line-height:.8;border-top:1px solid var(--border-soft)}
+.footerGiant span{display:inline-block;font-family:var(--font-display);font-size:13.6vw;white-space:nowrap;color:transparent;-webkit-text-stroke:1px rgba(255,90,31,.45);letter-spacing:-.005em}
+.footerGiant .char{color:transparent}
+footer{border-top:0}
+
+@media(max-width:850px){
+  .scrollCue{display:none}
+  .heroPulse{bottom:auto;top:46%;opacity:.35}
+  .manifesto{min-height:auto;padding:110px 22px}
+  .pillHead{gap:16px}
+  .pillNum{font-size:28px}
+}
+
+/* =====================================================================
+   Movimento reduzido: remove deslocamentos grandes, mantém o conteúdo
+   ===================================================================== */
 @media(prefers-reduced-motion:reduce){
-  *{animation-duration:.01ms!important;transition-duration:.01ms!important}
+  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .heroPulse__run,.scrollCue__line:after{animation:none!important}
 }

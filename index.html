@@ -3,6 +3,14 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
+<script>
+// Marca o documento antes do primeiro paint: evita "piscar" o conteúdo antes das animações
+(function(d){var c=d.documentElement.classList;
+  if(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches){c.add('reduce-motion');return;}
+  c.add('js-motion');
+  try{if(sessionStorage.getItem('bp-intro'))c.add('intro-seen');}catch(e){}
+})(document);
+</script>
 <meta name="description" content="Bruno Personal — treinamento personalizado e consultoria online.">
 <title>Bruno Personal | Transforme esforço em resultados</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,6 +24,22 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
+<div class="preloader" aria-hidden="true">
+  <div class="plPanel plPanel--dark">
+    <div class="plCenter">
+      <div class="plCount"><span class="plNum">00</span><small>ANOS DE<br>EXPERIÊNCIA</small></div>
+      <div class="plBar"><i></i></div>
+      <p class="plTag">BRUNO PERSONAL TRAINER</p>
+    </div>
+  </div>
+  <div class="plPanel plPanel--accent"></div>
+</div>
+<div class="scrollProgress" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" aria-hidden="true">
+  <div class="cursorRing"><div class="cursorRingInner"><span class="cursorLabel">ARRASTE</span></div></div>
+  <div class="cursorDot"></div>
+</div>
 <header class="header">
   <button class="menu" aria-label="Abrir menu">☰</button>
   <a href="#inicio" class="brand"><img src="logo-bruno-orange.png" alt="Bruno Personal Trainer"></a>
@@ -26,9 +50,16 @@
 
 <main>
 <section id="inicio" class="hero">
+  <svg class="heroPulse" viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+    <path class="heroPulse__base" pathLength="1000" d="M0,60 H360 L378,60 L392,22 L410,102 L424,38 L436,60 H740 L758,60 L772,14 L792,108 L806,42 L818,60 H1200"/>
+    <path class="heroPulse__run" pathLength="1000" d="M0,60 H360 L378,60 L392,22 L410,102 L424,38 L436,60 H740 L758,60 L772,14 L792,108 L806,42 L818,60 H1200"/>
+  </svg>
   <div class="heroText reveal">
     <p class="eyebrow">BRUNO PERSONAL • SÃO GABRIEL DA PALHA - ES</p>
-    <h1 class="wordReveal">NÃO ESPERE A<br><span class="accent">MOTIVAÇÃO.</span></h1>
+    <div class="heroTitleWrap">
+      <h1 class="heroTitle">NÃO ESPERE A<br><span class="accent">MOTIVAÇÃO.</span></h1>
+      <svg class="heroScribble" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path d="M6,28 C70,12 150,10 230,16 C290,20 340,26 394,14"/><path d="M40,34 C120,24 220,24 330,30"/></svg>
+    </div>
     <h2>Transforme esforço em resultados.</h2>
     <p>Treinamento personalizado e acompanhamento profissional para tornar sua evolução mais estratégica.</p>
     <div class="actions">
@@ -50,10 +81,34 @@
           <button class="hc-dot" data-i="2" aria-label="Foto 3"></button>
         </div>
       </div>
-      <div class="badge"><b>26</b><span>ANOS DE<br>EXPERIÊNCIA</span></div>
+      <div class="badge"><b data-count="26">26</b><span>ANOS DE<br>EXPERIÊNCIA</span></div>
     </div>
   </div>
+  <a class="scrollCue" href="#manifesto" aria-label="Rolar para baixo"><span class="scrollCue__line"></span><span>ROLE</span></a>
 </section>
+
+<section id="manifesto" class="manifesto" aria-label="Manifesto">
+  <div class="manifestoGlow" aria-hidden="true"></div>
+  <div class="manifestoInner">
+    <p class="eyebrow blue">A REGRA É SIMPLES</p>
+    <p class="manifestoText">Motivação vai e vem. <em>Disciplina</em> fica. Com estratégia, acompanhamento e consistência, cada treino transforma esforço em <em>resultado.</em></p>
+  </div>
+</section>
+
+<div class="tape" aria-hidden="true">
+  <div class="tapeBand tapeBand--accent">
+    <div class="tapeTrack">
+      <div class="tapeGroup"><span>DISCIPLINA</span><i>✦</i><span>CONSISTÊNCIA</span><i>✦</i><span>ESTRATÉGIA</span><i>✦</i><span>EVOLUÇÃO</span><i>✦</i><span>DISCIPLINA</span><i>✦</i><span>CONSISTÊNCIA</span><i>✦</i><span>ESTRATÉGIA</span><i>✦</i><span>EVOLUÇÃO</span><i>✦</i></div>
+      <div class="tapeGroup"><span>DISCIPLINA</span><i>✦</i><span>CONSISTÊNCIA</span><i>✦</i><span>ESTRATÉGIA</span><i>✦</i><span>EVOLUÇÃO</span><i>✦</i><span>DISCIPLINA</span><i>✦</i><span>CONSISTÊNCIA</span><i>✦</i><span>ESTRATÉGIA</span><i>✦</i><span>EVOLUÇÃO</span><i>✦</i></div>
+    </div>
+  </div>
+  <div class="tapeBand tapeBand--dark">
+    <div class="tapeTrack">
+      <div class="tapeGroup"><span>NÃO ESPERE A MOTIVAÇÃO</span><i>●</i><span>TRANSFORME ESFORÇO EM RESULTADOS</span><i>●</i><span>NÃO ESPERE A MOTIVAÇÃO</span><i>●</i><span>TRANSFORME ESFORÇO EM RESULTADOS</span><i>●</i></div>
+      <div class="tapeGroup"><span>NÃO ESPERE A MOTIVAÇÃO</span><i>●</i><span>TRANSFORME ESFORÇO EM RESULTADOS</span><i>●</i><span>NÃO ESPERE A MOTIVAÇÃO</span><i>●</i><span>TRANSFORME ESFORÇO EM RESULTADOS</span><i>●</i></div>
+    </div>
+  </div>
+</div>
 
 <section id="metodo" class="dark metodoSection">
   <div class="metodoOrb metodoOrb--1"></div>
@@ -64,9 +119,11 @@
     <p class="eyebrow blue">O MÉTODO BRUNO PERSONAL</p>
     <h2 class="title wordReveal">Treinar não é apenas<br><span class="accent">se exercitar.</span></h2>
     <p class="lead">É ter estratégia, acompanhamento e consistência para evoluir.</p>
-    <svg class="connectorLine" viewBox="0 0 1000 4" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,2 L1000,2"/>
-    </svg>
+    <div class="connector" aria-hidden="true">
+      <div class="connectorTrack"><div class="connectorFill"></div></div>
+      <i class="connectorNode"></i><i class="connectorNode"></i><i class="connectorNode"></i>
+      <span class="connectorDot"></span>
+    </div>
     <div class="timelineH">
       <article class="pillarCard reveal">
         <div class="pillarIcon"><svg viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="19" stroke="currentColor" stroke-width="2.5"/><circle cx="24" cy="24" r="11" stroke="currentColor" stroke-width="2.5"/><circle cx="24" cy="24" r="3.2" fill="currentColor"/></svg></div>
@@ -97,6 +154,7 @@
     <h2 class="title wordReveal">Experiência construída<br><span class="accent">na prática.</span></h2>
     <p class="lead">São 26 anos de experiência profissional e milhares de alunos acompanhados.</p>
     <div class="timeline">
+      <div class="timelineTrack" aria-hidden="true"><div class="timelineFill"></div></div>
       <article class="reveal"><b>FORMAÇÃO</b><h3>UFRJ</h3><p>Graduado em Educação Física pela Universidade Federal do Rio de Janeiro.</p></article>
       <article class="reveal"><b>FORMAÇÃO</b><h3>Pós-graduado em Treinamento de Força</h3><p>Especialização voltada ao desenvolvimento de força e performance no treinamento.</p></article>
       <article class="reveal"><b>13 ANOS</b><h3>Professor de musculação</h3><p>Atuação exclusiva no salão de musculação, acumulando experiência com milhares de alunos.</p></article>
@@ -112,9 +170,9 @@
     <h2 class="title wordReveal">Escolha a forma de<br><span class="accent">treinar com o Bruno.</span></h2>
     <p class="lead">Acompanhamento profissional em grupos reduzidos, sem perder a personalização.</p>
     <div class="pillCards">
-      <article class="reveal"><h3>INDIVIDUAL</h3><a class="link" data-msg="Tenho interesse no Personal Individual.">QUERO SABER MAIS →</a></article>
-      <article class="reveal"><h3>DUPLA</h3><a class="link" data-msg="Tenho interesse no Personal em Dupla.">QUERO SABER MAIS →</a></article>
-      <article class="reveal"><h3>TRIO</h3><a class="link" data-msg="Tenho interesse no Personal em Trio.">QUERO SABER MAIS →</a></article>
+      <article class="reveal"><div class="pillHead"><span class="pillNum">01</span><h3>INDIVIDUAL</h3><span class="pillPeople" aria-hidden="true"><i></i></span></div><a class="link" data-msg="Tenho interesse no Personal Individual.">QUERO SABER MAIS <span class="arrow">→</span></a></article>
+      <article class="reveal"><div class="pillHead"><span class="pillNum">02</span><h3>DUPLA</h3><span class="pillPeople" aria-hidden="true"><i></i><i></i></span></div><a class="link" data-msg="Tenho interesse no Personal em Dupla.">QUERO SABER MAIS <span class="arrow">→</span></a></article>
+      <article class="reveal"><div class="pillHead"><span class="pillNum">03</span><h3>TRIO</h3><span class="pillPeople" aria-hidden="true"><i></i><i></i><i></i></span></div><a class="link" data-msg="Tenho interesse no Personal em Trio.">QUERO SABER MAIS <span class="arrow">→</span></a></article>
     </div>
   </div>
 </section>
@@ -126,7 +184,7 @@
       <p class="eyebrow">CONSULTORIA ONLINE</p>
       <h2 class="title wordReveal">Seu treinamento.<br><span class="accent">Onde você estiver.</span></h2>
       <p class="lead">Planejamento e acompanhamento personalizado para quem quer treinar à distância, com suporte e tecnologia.</p>
-      <div class="actions"><a class="btn primary" data-msg="Tenho interesse na Consultoria Online.">QUERO SABER MAIS</a><a class="btn outline" href="https://client.mfitpersonal.com.br/out/signup-link/MzU3MjE=" target="_blank">ACESSAR CONSULTORIA</a></div>
+      <div class="actions"><a class="btn outline" data-msg="Tenho interesse na Consultoria Online.">QUERO SABER MAIS</a><a class="btn outline" href="https://client.mfitpersonal.com.br/out/signup-link/MzU3MjE=" target="_blank">ACESSAR CONSULTORIA</a></div>
     </div>
     <div class="featureList">
       <div><b>01</b>Avaliação e anamnese</div><div><b>02</b>Treino personalizado</div><div><b>03</b>Vídeos e orientação dos exercícios</div><div><b>04</b>Acompanhamento e suporte</div><div><b>05</b>Análise da evolução e ajustes</div>
@@ -240,12 +298,18 @@
   </div>
 </section>
 </main>
+<div class="footerGiant" aria-hidden="true"><span>BRUNO PERSONAL</span></div>
 <footer><b>BRUNO PERSONAL</b><span>Treinamento personalizado para quem busca evolução.</span>
   <div class="footerSocial">
     <a href="https://www.instagram.com/bruno.personal/" target="_blank" aria-label="Instagram"><svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.72 3.72 0 0 1-1.38-.9 3.72 3.72 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41 1.27-.06 1.65-.07 4.85-.07M12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.31-1.46.72-2.13 1.38A6.15 6.15 0 0 0 .63 4.14C.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.31.79.72 1.46 1.38 2.13.66.66 1.34 1.07 2.13 1.38.76.3 1.64.5 2.91.56 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.72 2.13-1.38.66-.66 1.07-1.34 1.38-2.13.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91a5.85 5.85 0 0 0-1.38-2.13A6.15 6.15 0 0 0 19.86.63C19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0z"/><path d="M12 5.84A6.16 6.16 0 1 0 18.16 12 6.16 6.16 0 0 0 12 5.84zm0 10.16A4 4 0 1 1 16 12a4 4 0 0 1-4 4z"/><circle cx="18.41" cy="5.59" r="1.44"/></svg></a>
     <a href="https://wa.me/5527998860938" target="_blank" aria-label="WhatsApp"><svg viewBox="0 0 24 24"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.85.5 3.58 1.36 5.07L2 22l5.19-1.36a9.9 9.9 0 0 0 4.85 1.24h.01c5.46 0 9.9-4.45 9.9-9.91C21.96 6.45 17.5 2 12.04 2zm5.84 14.11c-.25.7-1.45 1.34-2 1.42-.51.08-1.15.11-1.86-.12-.43-.14-.98-.32-1.69-.63-2.98-1.29-4.92-4.29-5.07-4.49-.15-.2-1.22-1.62-1.22-3.09 0-1.47.77-2.19 1.05-2.49.27-.3.6-.37.8-.37.2 0 .4 0 .57.01.18.01.43-.07.67.51.25.6.85 2.07.92 2.22.07.15.12.33.02.53-.1.2-.15.32-.3.49-.15.17-.31.38-.44.51-.15.15-.3.31-.13.61.17.3.76 1.25 1.63 2.02 1.12 1 2.06 1.31 2.36 1.46.3.15.48.13.66-.08.18-.2.75-.87.95-1.17.2-.3.4-.25.67-.15.27.1 1.73.82 2.02.97.3.15.5.22.57.35.07.13.07.75-.18 1.45z"/></svg></a>
   </div>
 <small>© 2026 Bruno Personal</small></footer>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/SplitText.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/ScrambleTextPlugin.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
