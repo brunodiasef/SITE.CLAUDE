@@ -259,6 +259,7 @@ if(finePointer){
   tilt('.pillCards article',6);
   tilt('.pillarCard',8);
   tilt('.testimonialCard',4);
+  tilt('.tlCard',5);
 }
 
 // ---------- Hero ----------
@@ -427,12 +428,65 @@ mm.add('(min-width: 851px)',()=>{
 $$('.sobreBg').forEach(img=>{
   gsap.fromTo(img,{yPercent:-7,scale:1.2},{yPercent:7,scale:1.04,ease:'none',scrollTrigger:{trigger:img.parentElement,start:'top bottom',end:'bottom top',scrub:true}});
 });
-if($('.timeline')){
-  gsap.fromTo('.timelineFill',{scaleY:0},{scaleY:1,ease:'none',scrollTrigger:{trigger:'.timeline',start:'top 62%',end:'bottom 62%',scrub:.5}});
-  $$('.timeline article').forEach(a=>{
-    gsap.from(a,{x:-46,opacity:0,duration:1,ease:'power4.out',scrollTrigger:{trigger:a,start:'top 86%',toggleActions:'play none none none'}});
-    ScrollTrigger.create({trigger:a,start:'top 62%',onEnter:()=>a.classList.add('lit'),onLeaveBack:()=>a.classList.remove('lit')});
+$$('.countUp').forEach(el=>{
+  const o={v:0},to=+el.dataset.to;
+  el.textContent='0';
+  gsap.to(o,{v:to,duration:1.6,ease:'power2.out',onUpdate:()=>{el.textContent=Math.round(o.v)},scrollTrigger:{trigger:el,start:'top 88%',toggleActions:'play none none none'}});
+});
+const tlWrap=$('.timeline');
+if(tlWrap){
+  const track=$('.timelineTrack',tlWrap),comet=$('.timelineComet',tlWrap),items=$$('.tlItem',tlWrap);
+  // A trilha vai do centro do 1º nó ao centro do último (offsetTop ignora os transforms das entradas)
+  const nodeY=it=>{const n=$('.tlNode',it);return it.offsetTop+n.offsetTop+n.offsetHeight/2;};
+  const lights=[];
+  const layoutSpine=()=>{
+    const top=nodeY(items[0]),h=nodeY(items[items.length-1])-top;
+    gsap.set([track,comet],{top});
+    gsap.set(track,{height:h});
+    lights.forEach(l=>{l.stop=h?(nodeY(l.item)-top)/h:0;});
+  };
+  layoutSpine();
+  ScrollTrigger.addEventListener('refreshInit',layoutSpine);
+  // O cometa segue a linha de 62% da tela. Quando ele (com o atraso do scrub) chega num nó, o card entra;
+  // quando volta acima do nó, o card sai pelo mesmo lado
+  gsap.timeline({
+    onUpdate(){
+      const p=this.progress();
+      lights.forEach(l=>{
+        const on=p>0&&p>=l.stop-.001;
+        if(on===l.on)return;
+        l.on=on;
+        l.item.classList.toggle('lit',on);
+        if(on)l.show.timeScale(1).play();
+        else l.show.timeScale(1.6).reverse();
+      });
+    },
+    scrollTrigger:{trigger:track,start:'top 62%',end:'bottom 62%',scrub:.5,invalidateOnRefresh:true}
+  })
+    .fromTo('.timelineFill',{scaleY:0},{scaleY:1,ease:'none'})
+    .fromTo(comet,{y:0,opacity:1},{y:()=>track.offsetHeight,ease:'none',immediateRender:false},0);
+
+  items.forEach((item,i)=>{
+    const card=$('.tlCard',item),tag=$('.tlTag',item);
+    // No desktop os cards da esquerda ficam fora da tela pela esquerda; os da direita (e todos no celular), pela direita
+    const dir=window.innerWidth>850&&i%2===0?-1:1;
+    const words=SplitText.create($('h3',item),{type:'words',mask:'words'}).words;
+    const strokes=$$('.tlIcon svg path, .tlIcon svg circle, .tlIcon svg rect',item).map(prepStroke);
+    // Pausada: só toca quando o cometa chega no nó (ver onUpdate acima)
+    const show=gsap.timeline({paused:true})
+      .fromTo(card,{x:()=>dir*(window.innerWidth+80),rotation:-dir*8,opacity:0},{x:0,rotation:0,opacity:1,duration:1,ease:'expo.out'})
+      .fromTo($('.tlIndex',item),{yPercent:60,opacity:0},{yPercent:0,opacity:1,duration:.7,ease:'power4.out'},.4)
+      .fromTo(words,{yPercent:110},{yPercent:0,duration:.6,stagger:.05,ease:'power4.out'},.45)
+      .to(strokes,{strokeDashoffset:0,duration:.8,ease:'power2.inOut',stagger:.1},.5)
+      .fromTo($('.tlStub',item),{scaleX:0},{scaleX:1,duration:.45,ease:'power3.out'},.55)
+      .fromTo($('p',item),{y:16,opacity:0},{y:0,opacity:1,duration:.6},.6);
+    if(tag.dataset.count){
+      const o={v:0},to=+tag.dataset.count,suffix=tag.textContent.replace(/^\d+/,'');
+      show.fromTo(o,{v:0},{v:to,duration:.9,ease:'power2.out',onUpdate:()=>{tag.textContent=Math.round(o.v)+suffix}},.45);
+    }else show.add(scramble(tag,{duration:.8}),.45);
+    lights.push({item,on:false,stop:0,show});
   });
+  layoutSpine();
 }
 
 // ---------- Presencial ----------
@@ -444,10 +498,42 @@ $$('.pillCards article').forEach((c,i)=>{
 });
 
 // ---------- Consultoria ----------
-if($('.featureList')){
-  gsap.fromTo('.featureList div',{clipPath:'inset(0% 100% 0% 0%)'},{clipPath:'inset(0% 0% 0% 0%)',duration:1.1,ease:'power3.inOut',stagger:.12,scrollTrigger:{trigger:'.featureList',start:'top 82%',toggleActions:'play none none none'}});
-  $$('.featureList b').forEach((b,i)=>{
-    gsap.from(b,{opacity:0,scale:.4,duration:.6,ease:'back.out(3)',delay:.25+i*.12,scrollTrigger:{trigger:'.featureList',start:'top 82%',toggleActions:'play none none none'}});
+const list=$('.featureList');
+if(list){
+  const steps=$$('.step',list),n=steps.length;
+  const badgeY=s=>{const b=$('.stepBadge',s);return s.offsetTop+b.offsetTop+b.offsetHeight/2;};
+  const layoutRail=()=>{
+    list.style.setProperty('--rail-top',badgeY(steps[0])+'px');
+    list.style.setProperty('--rail-bottom',(list.offsetHeight-badgeY(steps[n-1]))+'px');
+  };
+  layoutRail();
+  ScrollTrigger.addEventListener('refreshInit',layoutRail);
+  // Odômetro: o último dígito dá uma volta completa (0→9) e para no número do passo
+  const odos=steps.map(s=>{
+    const b=$('.stepBadge b',s),txt=b.textContent.trim(),last=+txt.slice(-1);
+    const digits=[...Array(10).keys(),...Array(last+1).keys()];
+    const odo=document.createElement('span'),strip=document.createElement('span');
+    odo.className='odo';strip.className='odoStrip';
+    strip.innerHTML=digits.map(d=>'<span>'+d+'</span>').join('');
+    odo.appendChild(strip);
+    b.textContent=txt.slice(0,-1);
+    b.appendChild(odo);
+    return {strip,end:-(digits.length-1)/digits.length*100};
+  });
+  const rings=steps.map(s=>prepStroke($('.stepRing',s))),checks=steps.map(s=>prepStroke($('.stepCheck path',s)));
+  gsap.set(steps,{transformPerspective:900,transformOrigin:'50% 0%'});
+  const step=.32,first=.3;
+  const tl=gsap.timeline({scrollTrigger:{trigger:list,start:'top 80%',toggleActions:'play none none none'}})
+    .fromTo(steps,{opacity:0,y:30,rotationX:-70},{opacity:1,y:0,rotationX:0,duration:1,ease:'power4.out',stagger:.13},0)
+    // O trilho chega em cada número no mesmo instante em que ele acende (first + .25 + i*step)
+    .fromTo(list,{'--rail':0},{'--rail':1,duration:step*(n-1),ease:'none'},first+.25);
+  steps.forEach((s,i)=>{
+    const at=first+i*step;
+    tl.fromTo(rings[i],{strokeDashoffset:rings[i].getTotalLength()},{strokeDashoffset:0,duration:.75,ease:'power2.inOut'},at)
+      .fromTo(odos[i].strip,{yPercent:0},{yPercent:odos[i].end,duration:1,ease:'expo.out'},at)
+      .add(()=>s.classList.add('on'),at+.25)
+      .fromTo($('.stepLine',s),{scaleX:0},{scaleX:1,duration:.8,ease:'power3.inOut'},at+.1)
+      .fromTo(checks[i],{strokeDashoffset:checks[i].getTotalLength()},{strokeDashoffset:0,duration:.45,ease:'power2.out'},at+.5);
   });
 }
 
