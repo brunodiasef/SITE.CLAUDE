@@ -13,10 +13,8 @@ const motionOn=hasGSAP&&!reduceMotion;
 
 // ===== 1. Básico =====
 const menu=document.querySelector('.menu'),nav=document.querySelector('.header nav');
-menu?.addEventListener('click',()=>nav.classList.toggle('open'));
-document.querySelectorAll('.header nav a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
-const phone='5527998860938';
-document.querySelectorAll('[data-msg]').forEach(el=>el.addEventListener('click',()=>{const t=encodeURIComponent(el.dataset.msg);window.open('https://wa.me/'+phone+'?text='+t,'_blank')}));
+menu?.addEventListener('click',()=>menu.setAttribute('aria-expanded',String(nav.classList.toggle('open'))));
+document.querySelectorAll('.header nav a').forEach(a=>a.addEventListener('click',()=>{nav.classList.remove('open');menu?.setAttribute('aria-expanded','false');}));
 
 // Carrossel de fotos do hero (o autoplay começa depois da entrada do hero)
 const carousel=(function(){
@@ -227,7 +225,7 @@ if(finePointer){
     const t=e.target;
     const drag=!!t.closest('.ba-wrap');
     cur.classList.toggle('is-drag',drag);
-    cur.classList.toggle('is-hover',!drag&&!!t.closest('a,button,[data-msg],.hc-slide.prev,.hc-slide.next'));
+    cur.classList.toggle('is-hover',!drag&&!!t.closest('a,button,.hc-slide.prev,.hc-slide.next'));
   });
   window.addEventListener('pointerdown',()=>cur.classList.add('is-down'));
   window.addEventListener('pointerup',()=>cur.classList.remove('is-down'));
@@ -288,8 +286,8 @@ function buildHeroIntro(){
     .add(scramble(eyebrow,{duration:1.2}),.05)
     .from(heroSplit.chars,{yPercent:118,rotate:9,duration:1.15,stagger:.026},.1)
     .to(scribble,{strokeDashoffset:0,duration:.9,ease:'power2.inOut',stagger:.18},.85)
-    .from('.hero h2',{y:30,opacity:0,duration:.9},.6)
-    .from('.heroText>p:not(.eyebrow)',{y:24,opacity:0,duration:.9},.72)
+    .from('.hero .heroSub',{y:30,opacity:0,duration:.9},.6)
+    .from('.heroText>p:not(.eyebrow):not(.heroSub)',{y:24,opacity:0,duration:.9},.72)
     .from('.hero .actions .btn',{y:26,opacity:0,scale:.9,duration:.8,stagger:.09,ease:'back.out(1.7)'},.85)
     .from('.logoStack',{y:90,opacity:0,duration:1.4,ease:'expo.out'},.15)
     .fromTo('.hc-slide.active img',{clipPath:'inset(100% 0% 0% 0%)',scale:1.35},{clipPath:'inset(0% 0% 0% 0%)',scale:1,duration:1.5,ease:'expo.out'},.25)
@@ -602,15 +600,16 @@ function runIntro(heroTl){
       lenis&&lenis.start();
       ScrollTrigger.refresh();
     }})
-    .from('.plCenter',{opacity:0,y:24,duration:.6})
-    .to(c,{v:26,duration:1.5,ease:'power2.inOut',onUpdate:()=>{num.textContent=String(Math.round(c.v)).padStart(2,'0')}},'<.1')
-    .to('.plBar i',{scaleX:1,duration:1.5,ease:'power2.inOut'},'<')
-    .add(scramble($('.plTag',pre),{duration:1.3}),'<')
-    .to('.plCenter',{y:-40,opacity:0,duration:.45,ease:'power2.in'},'+=.2')
-    .to('.plPanel--accent',{yPercent:0,duration:.6,ease:'power4.inOut'},'<.1')
+    // Curta de propósito (~1,5 s até o hero): uma abertura longa atrasa o carregamento percebido
+    .from('.plCenter',{opacity:0,y:24,duration:.35})
+    .to(c,{v:26,duration:.9,ease:'power2.inOut',onUpdate:()=>{num.textContent=String(Math.round(c.v)).padStart(2,'0')}},'<')
+    .to('.plBar i',{scaleX:1,duration:.9,ease:'power2.inOut'},'<')
+    .add(scramble($('.plTag',pre),{duration:.8}),'<')
+    .to('.plCenter',{y:-40,opacity:0,duration:.3,ease:'power2.in'},'+=.05')
+    .to('.plPanel--accent',{yPercent:0,duration:.45,ease:'power4.inOut'},'<.05')
     .set('.plPanel--dark',{autoAlpha:0})
-    .to('.plPanel--accent',{yPercent:-101,duration:.85,ease:'power4.inOut'})
-    .add(()=>heroTl.play(),'<.2');
+    .to('.plPanel--accent',{yPercent:-101,duration:.6,ease:'power4.inOut'})
+    .add(()=>heroTl.play(),'<.1');
 }
 
 // Espera a fonte Anton (para o SplitText quebrar as linhas certo) e dispara a intro

@@ -11,8 +11,43 @@
   try{if(sessionStorage.getItem('bp-intro'))c.add('intro-seen');}catch(e){}
 })(document);
 </script>
-<meta name="description" content="Bruno Personal — treinamento personalizado e consultoria online.">
-<title>Bruno Personal | Transforme esforço em resultados</title>
+<title>Personal Trainer em São Gabriel da Palha - ES | Bruno Personal</title>
+<meta name="description" content="Personal trainer em São Gabriel da Palha - ES. Treino individual, em dupla ou trio e consultoria online com Bruno Dias de Oliveira, 26 anos de experiência.">
+<link rel="canonical" href="https://brunopersonal.com.br/">
+<!-- Prévia ao compartilhar o link (WhatsApp, Instagram, Facebook) -->
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:site_name" content="Bruno Personal">
+<meta property="og:url" content="https://brunopersonal.com.br/">
+<meta property="og:title" content="Bruno Personal | Personal Trainer em São Gabriel da Palha - ES">
+<meta property="og:description" content="Não espere a motivação. Treino individual, em dupla ou trio e consultoria online, com 26 anos de experiência.">
+<meta property="og:image" content="https://brunopersonal.com.br/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Logo Bruno Personal Trainer e retrato de Bruno Dias de Oliveira">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://brunopersonal.com.br/#negocio",
+  "name": "Bruno Personal",
+  "description": "Personal trainer em São Gabriel da Palha - ES: treino individual, em dupla ou trio e consultoria online.",
+  "url": "https://brunopersonal.com.br/",
+  "image": "https://brunopersonal.com.br/og-image.jpg",
+  "logo": "https://brunopersonal.com.br/logo-bruno.webp",
+  "telephone": "+55 27 99886-0938",
+  "address": {"@type": "PostalAddress", "addressLocality": "São Gabriel da Palha", "addressRegion": "ES", "addressCountry": "BR"},
+  "areaServed": "São Gabriel da Palha - ES",
+  "sameAs": ["https://www.instagram.com/bruno.personal/"],
+  "founder": {
+    "@type": "Person",
+    "name": "Bruno Dias de Oliveira",
+    "jobTitle": "Personal Trainer",
+    "alumniOf": {"@type": "CollegeOrUniversity", "name": "Universidade Federal do Rio de Janeiro"}
+  }
+}
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Anton&display=swap" rel="stylesheet">
@@ -41,8 +76,8 @@
   <div class="cursorDot"></div>
 </div>
 <header class="header">
-  <button class="menu" aria-label="Abrir menu">☰</button>
-  <a href="#inicio" class="brand"><img src="logo-bruno-orange.png" alt="Bruno Personal Trainer"></a>
+  <button class="menu" aria-label="Abrir menu" aria-expanded="false">☰</button>
+  <a href="#inicio" class="brand"><img src="logo-bruno.webp" alt="Bruno Personal Trainer"></a>
   <nav>
     <a href="#inicio">Início</a><a href="#sobre">Sobre</a><a href="#presencial">Presencial</a><a href="#consultoria">Consultoria</a><a href="#plataformas">Aplicativos</a><a href="#depoimentos">Depoimentos</a><a class="navbtn" href="#contato">PRONTO PARA COMEÇAR</a>
   </nav>
@@ -60,10 +95,10 @@
       <h1 class="heroTitle">NÃO ESPERE A<br><span class="accent">MOTIVAÇÃO.</span></h1>
       <svg class="heroScribble" viewBox="0 0 400 40" preserveAspectRatio="none" aria-hidden="true"><path d="M6,28 C70,12 150,10 230,16 C290,20 340,26 394,14"/><path d="M40,34 C120,24 220,24 330,30"/></svg>
     </div>
-    <h2>Transforme esforço em resultados.</h2>
+    <p class="heroSub">Transforme esforço em resultados.</p>
     <p>Treinamento personalizado e acompanhamento profissional para tornar sua evolução mais estratégica.</p>
     <div class="actions">
-      <a class="btn primary" data-msg="Olá, Bruno! Conheci seu site e quero saber mais sobre os treinamentos.">QUERO TREINAR</a>
+      <a class="btn primary" href="https://wa.me/5527998860938?text=Ol%C3%A1%2C%20Bruno!%20Conheci%20seu%20site%20e%20quero%20saber%20mais%20sobre%20os%20treinamentos." target="_blank" rel="noopener">QUERO TREINAR</a>
       <a class="btn outline" href="#metodo">CONHECER O MÉTODO</a>
     </div>
   </div>
@@ -71,10 +106,10 @@
     <div class="blueGlow"></div>
     <div class="logoStack">
       <div class="heroCarousel" id="heroCarousel">
-        <div class="hc-slide active"><img src="hero-carousel-1.jpg" alt="Bruno Personal treinando aluna"></div>
-        <div class="hc-slide"><img src="hero-carousel-2.jpg" alt="Bruno Personal treinando com halteres"></div>
-        <div class="hc-slide"><img src="hero-carousel-3.jpg" alt="Retrato de Bruno Personal"></div>
-        <div class="hc-slide"><img src="hero-carousel-4.jpg" alt="Retrato de Bruno Personal preto e branco"></div>
+        <div class="hc-slide active"><img src="hero-carousel-1.webp" alt="Bruno Personal treinando aluna" fetchpriority="high"></div>
+        <div class="hc-slide"><img src="hero-carousel-2.webp" alt="Bruno Personal treinando com halteres"></div>
+        <div class="hc-slide"><img src="hero-carousel-3.webp" alt="Retrato de Bruno Personal"></div>
+        <div class="hc-slide"><img src="hero-carousel-4.webp" alt="Retrato de Bruno Personal preto e branco"></div>
         <div class="hc-dots">
           <button class="hc-dot active" data-i="0" aria-label="Foto 1"></button>
           <button class="hc-dot" data-i="1" aria-label="Foto 2"></button>
@@ -158,7 +193,7 @@
 </section>
 
 <section id="sobre" class="light sobreSection">
-  <img class="sobreBg" src="hero-carousel-4.jpg" alt="">
+  <img class="sobreBg" src="hero-carousel-4.webp" alt="">
   <div class="wrap">
     <div class="sobreHead">
       <div class="sobreIntro">
@@ -167,7 +202,7 @@
         <p class="lead">São <span class="countUp" data-to="26">26</span> anos de experiência profissional e milhares de alunos acompanhados.</p>
       </div>
       <figure class="sobrePortrait">
-        <div class="sobrePortrait__frame"><img src="bruno-foto.jpg" alt="Bruno Dias de Oliveira de braços cruzados na academia"></div>
+        <div class="sobrePortrait__frame"><img src="bruno-foto.webp" alt="Bruno Dias de Oliveira de braços cruzados na academia" loading="lazy" decoding="async"></div>
         <figcaption><b>Bruno Dias de Oliveira</b><span>Personal Trainer</span></figcaption>
       </figure>
     </div>
@@ -229,21 +264,21 @@
     <h2 class="title wordReveal">Escolha a forma de<br><span class="accent">treinar com o Bruno.</span></h2>
     <p class="lead">Acompanhamento profissional em grupos reduzidos, sem perder a personalização.</p>
     <div class="pillCards">
-      <article><span class="pillBig" aria-hidden="true">1</span><div class="pillHead"><span class="pillNum">01</span><span class="pillPeople" aria-hidden="true"><i></i></span></div><h3>INDIVIDUAL</h3><p class="pillSub">Só você e o Bruno, com atenção total do início ao fim do treino.</p><a class="link" data-msg="Tenho interesse no Personal Individual.">QUERO SABER MAIS <span class="arrow">→</span></a></article>
-      <article><span class="pillBig" aria-hidden="true">2</span><div class="pillHead"><span class="pillNum">02</span><span class="pillPeople" aria-hidden="true"><i></i><i></i></span></div><h3>DUPLA</h3><p class="pillSub">Treine com um parceiro e evoluam juntos, cada um no seu ritmo.</p><a class="link" data-msg="Tenho interesse no Personal em Dupla.">QUERO SABER MAIS <span class="arrow">→</span></a></article>
-      <article><span class="pillBig" aria-hidden="true">3</span><div class="pillHead"><span class="pillNum">03</span><span class="pillPeople" aria-hidden="true"><i></i><i></i><i></i></span></div><h3>TRIO</h3><p class="pillSub">Grupo reduzido de três, sem perder a personalização.</p><a class="link" data-msg="Tenho interesse no Personal em Trio.">QUERO SABER MAIS <span class="arrow">→</span></a></article>
+      <article><span class="pillBig" aria-hidden="true">1</span><div class="pillHead"><span class="pillNum">01</span><span class="pillPeople" aria-hidden="true"><i></i></span></div><h3>INDIVIDUAL</h3><p class="pillSub">Só você e o Bruno, com atenção total do início ao fim do treino.</p><a class="link" href="https://wa.me/5527998860938?text=Tenho%20interesse%20no%20Personal%20Individual." target="_blank" rel="noopener">QUERO SABER MAIS <span class="arrow">→</span></a></article>
+      <article><span class="pillBig" aria-hidden="true">2</span><div class="pillHead"><span class="pillNum">02</span><span class="pillPeople" aria-hidden="true"><i></i><i></i></span></div><h3>DUPLA</h3><p class="pillSub">Treine com um parceiro e evoluam juntos, cada um no seu ritmo.</p><a class="link" href="https://wa.me/5527998860938?text=Tenho%20interesse%20no%20Personal%20em%20Dupla." target="_blank" rel="noopener">QUERO SABER MAIS <span class="arrow">→</span></a></article>
+      <article><span class="pillBig" aria-hidden="true">3</span><div class="pillHead"><span class="pillNum">03</span><span class="pillPeople" aria-hidden="true"><i></i><i></i><i></i></span></div><h3>TRIO</h3><p class="pillSub">Grupo reduzido de três, sem perder a personalização.</p><a class="link" href="https://wa.me/5527998860938?text=Tenho%20interesse%20no%20Personal%20em%20Trio." target="_blank" rel="noopener">QUERO SABER MAIS <span class="arrow">→</span></a></article>
     </div>
   </div>
 </section>
 
 <section id="consultoria" class="light sobreSection">
-  <img class="sobreBg" src="consultoria-foto.jpg" alt="">
+  <img class="sobreBg" src="consultoria-foto.webp" alt="" loading="lazy" decoding="async">
   <div class="wrap split">
     <div>
       <p class="eyebrow">CONSULTORIA ONLINE</p>
       <h2 class="title wordReveal">Seu treinamento.<br><span class="accent">Onde você estiver.</span></h2>
       <p class="lead">Planejamento e acompanhamento personalizado para quem quer treinar à distância, com suporte e tecnologia.</p>
-      <div class="actions"><a class="btn outline" data-msg="Tenho interesse na Consultoria Online.">QUERO SABER MAIS</a><a class="btn outline" href="https://client.mfitpersonal.com.br/out/signup-link/MzU3MjE=" target="_blank">ACESSAR CONSULTORIA</a></div>
+      <div class="actions"><a class="btn outline" href="https://wa.me/5527998860938?text=Tenho%20interesse%20na%20Consultoria%20Online." target="_blank" rel="noopener">QUERO SABER MAIS</a><a class="btn outline" href="https://client.mfitpersonal.com.br/out/signup-link/MzU3MjE=" target="_blank">ACESSAR CONSULTORIA</a></div>
     </div>
     <ol class="featureList" role="list">
       <li class="step"><span class="stepBadge" aria-hidden="true"><svg viewBox="0 0 44 44"><circle class="stepRingTrack" cx="22" cy="22" r="20"/><circle class="stepRing" cx="22" cy="22" r="20"/></svg><b>01</b></span><span class="stepText">Avaliação e anamnese</span><svg class="stepCheck" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><i class="stepLine" aria-hidden="true"></i></li>
@@ -262,7 +297,7 @@
     <p class="lead">Presencial ou à distância, você acompanha cada treino em tempo real — direto no aplicativo.</p>
     <div class="phoneShowcase">
       <article class="phoneRow reveal">
-        <div class="phoneMock"><div class="phoneGlow"></div><div class="phoneFrame"><img src="app-presencial.jpg" alt="Aplicativo Bruno Personal mostrando os treinos da semana"></div></div>
+        <div class="phoneMock"><div class="phoneGlow"></div><div class="phoneFrame"><img src="app-presencial.webp" alt="Aplicativo Bruno Personal mostrando os treinos da semana" loading="lazy" decoding="async"></div></div>
         <div class="phoneText">
           <p class="eyebrow blue">APP DOS ALUNOS PRESENCIAIS</p>
           <h3 class="wordReveal">Seu treino na palma da mão.</h3>
@@ -277,14 +312,14 @@
           <p class="lead">Seu planejamento personalizado, acompanhado de forma profissional através da plataforma MFIT.</p>
           <a class="btn primary" href="https://client.mfitpersonal.com.br/out/signup-link/MzU3MjE=" target="_blank">ACESSAR CONSULTORIA</a>
         </div>
-        <div class="phoneMock"><div class="phoneGlow"></div><div class="phoneFrame phoneFrame--art"><img src="app-consultoria-art.png" alt="Ilustração do app de consultoria online Bruno Personal"></div></div>
+        <div class="phoneMock"><div class="phoneGlow"></div><div class="phoneFrame phoneFrame--art"><img src="app-consultoria-art.webp" alt="Ilustração do app de consultoria online Bruno Personal" loading="lazy" decoding="async"></div></div>
       </article>
     </div>
   </div>
 </section>
 
 <section id="depoimentos" class="light sobreSection">
-  <img class="sobreBg sobreBg--color" src="depoimentos-foto2.jpg" alt="">
+  <img class="sobreBg sobreBg--color" src="depoimentos-foto2.webp" alt="" loading="lazy" decoding="async">
   <div class="wrap">
     <p class="eyebrow">DEPOIMENTOS</p>
     <h2 class="title wordReveal">Quem treina,<br><span class="accent">pode contar melhor.</span></h2>
@@ -293,9 +328,9 @@
       <div class="baPair">
         <div class="baShowcase reveal">
           <div class="ba-wrap">
-            <img class="ba-img" src="depois.jpg" alt="Depois da transformação de Henrique">
+            <img class="ba-img" src="depois.webp" alt="Depois da transformação de Henrique" loading="lazy" decoding="async">
             <div class="ba-after-clip">
-              <img class="ba-after-img" src="antes.jpg" alt="Antes da transformação de Henrique">
+              <img class="ba-after-img" src="antes.webp" alt="Antes da transformação de Henrique" loading="lazy" decoding="async">
             </div>
             <div class="ba-label before">ANTES</div>
             <div class="ba-label after">DEPOIS</div>
@@ -321,9 +356,9 @@
       <div class="baPair">
         <div class="baShowcase reveal">
           <div class="ba-wrap">
-            <img class="ba-img" src="depois2.jpg" alt="Depois da transformação">
+            <img class="ba-img" src="depois2.webp" alt="Depois da transformação" loading="lazy" decoding="async">
             <div class="ba-after-clip">
-              <img class="ba-after-img" src="antes2.jpg" alt="Antes da transformação">
+              <img class="ba-after-img" src="antes2.webp" alt="Antes da transformação" loading="lazy" decoding="async">
             </div>
             <div class="ba-label before">ANTES</div>
             <div class="ba-label after">DEPOIS</div>
