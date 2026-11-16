@@ -256,7 +256,6 @@ if(finePointer){
     });
     card.addEventListener('pointerleave',()=>{tx(0);ty(0);});
   });
-  tilt('.pillCards article',6);
   tilt('.pillarCard',8);
   tilt('.testimonialCard',4);
   tilt('.tlCard',5);
@@ -320,6 +319,10 @@ gsap.to('.heroPulse',{yPercent:-120,opacity:0,ease:'none',scrollTrigger:heroOut}
 
 // Cenas de rolagem: criadas depois que a fonte carrega, na ordem da página
 function buildScenes(){
+// ---------- Faixa de destaques logo abaixo do hero ----------
+if($('.stats')){
+  gsap.fromTo('.stat',{y:40,opacity:0},{y:0,opacity:1,duration:1,ease:'power4.out',stagger:.1,scrollTrigger:{trigger:'.stats',start:'top 92%',toggleActions:'play none none none'}});
+}
 // ---------- Manifesto: palavras acendem com a rolagem ----------
 const mText=$('.manifestoText');
 if(mText){
@@ -428,6 +431,14 @@ mm.add('(min-width: 851px)',()=>{
 $$('.sobreBg').forEach(img=>{
   gsap.fromTo(img,{yPercent:-7,scale:1.2},{yPercent:7,scale:1.04,ease:'none',scrollTrigger:{trigger:img.parentElement,start:'top bottom',end:'bottom top',scrub:true}});
 });
+const portrait=$('.sobrePortrait');
+if(portrait){
+  const pIn={trigger:portrait,start:'top 80%',toggleActions:'play none none none'};
+  gsap.fromTo($('.sobrePortrait__frame',portrait),{clipPath:'inset(100% 0% 0% 0% round 26px)'},{clipPath:'inset(0% 0% 0% 0% round 26px)',duration:1.4,ease:'expo.out',scrollTrigger:pIn});
+  gsap.fromTo($('figcaption',portrait),{x:-30,opacity:0},{x:0,opacity:1,duration:.9,delay:.5,ease:'power4.out',scrollTrigger:pIn});
+  // Parallax dentro da moldura; o scale fixo mantém escondida a borda branca da foto
+  gsap.fromTo($('img',portrait),{yPercent:-6,scale:1.14},{yPercent:6,scale:1.14,ease:'none',scrollTrigger:{trigger:portrait,start:'top bottom',end:'bottom top',scrub:true}});
+}
 $$('.countUp').forEach(el=>{
   const o={v:0},to=+el.dataset.to;
   el.textContent='0';
@@ -491,8 +502,9 @@ if(tlWrap){
 
 // ---------- Presencial ----------
 $$('.pillCards article').forEach((c,i)=>{
-  gsap.timeline({scrollTrigger:{trigger:c,start:'top 90%',toggleActions:'play none none none'}})
-    .from(c,{x:i%2?90:-90,opacity:0,duration:1.1,ease:'expo.out'})
+  gsap.timeline({delay:i*.12,scrollTrigger:{trigger:c,start:'top 90%',toggleActions:'play none none none'}})
+    .fromTo(c,{y:90,opacity:0},{y:0,opacity:1,duration:1.1,ease:'expo.out'})
+    .fromTo($('.pillBig',c),{yPercent:45,opacity:0},{yPercent:0,opacity:1,duration:1.2,ease:'power4.out'},.15)
     .fromTo($$('.pillPeople i',c),{scale:0},{scale:1,duration:.5,stagger:.08,ease:'back.out(3)',clearProps:'transform'},'-=.6')
     .add(canScramble?scramble($('.pillNum',c),{duration:.8,scrambleText:{text:$('.pillNum',c).textContent,chars:'0123456789',speed:.8}}):gsap.from($('.pillNum',c),{opacity:0}),'<');
 });
